@@ -11,9 +11,7 @@ $(document).ready(function() {
 
       dayRender: function( date, cell ) {
         
-        $(cell).text('
-        $('.toggle').toggles({on:true})')
-
+        
       }
   
     })
