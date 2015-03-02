@@ -236,7 +236,7 @@ Devise.setup do |config|
   
   require 'omniauth-google-oauth2'
   config.omniauth :google_oauth2, "562850866753-oiqp3qk1gp8rm6f39ugpv9ja2hsl4olc.apps.googleusercontent.com",
-   "5lNl0CnDAYZgsA1FFMlel-MA", { access_type: "offline", approval_prompt: "" }
+   "FcBn8qqhJTqAb974DAKGo5yI", { access_type: "offline", approval_prompt: "" }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
