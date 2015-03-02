@@ -9,15 +9,7 @@ $(document).ready(function() {
         right:  ''
       },
 
-      dayRender: function( date, cell ) {
-
-        $(cell).function(){
-
-          
-        }
-
-      }
-  
+     
     })
 
 });
