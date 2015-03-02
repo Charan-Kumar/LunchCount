@@ -10,8 +10,12 @@ $(document).ready(function() {
       },
 
       dayRender: function( date, cell ) {
-        
-        
+
+        $(cell).function(){
+
+          
+        }
+
       }
   
     })

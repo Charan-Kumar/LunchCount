@@ -15,7 +15,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     else
       reset_session
       redirect_to :root
-      flash[:error]= "Looks like you are out of crypsis network. Access is denied"
+      flash[:alert]= "Looks like you are out of crypsis network. Access is denied"
     end
 
   end
