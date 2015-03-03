@@ -59,3 +59,5 @@ gem "twitter-bootstrap-rails"
 #Calender IO
 gem 'fullcalendar-rails'
 gem 'momentjs-rails'
+
+gem 'pry'

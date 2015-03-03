@@ -1,0 +1,57 @@
+$(document).ready(function() {
+      $('#calendar').fullCalendar({
+      firstDay:1,
+      contentHeight: 600,
+      weekends: true,
+      header:{
+        left:   '',
+        center: 'title',
+        right:  ''
+      },
+    })
+
+    $('td .fc-day').not(".fc-other-month").each(function(index){
+
+      var toggle_id = (index+1).toString();
+      $(this).append('<center><br><br><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="toggle_id" checked><label id="label_id" class="onoffswitch-label" for="xyz"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div></center>');
+      document.getElementById("toggle_id").setAttribute("id",toggle_id);
+      $('label#label_id').attr("for", toggle_id);
+      $('label#label_id').attr("id", toggle_id);
+           
+    })
+
+    $('.onoffswitch-checkbox').on("change",function(){
+
+        // For Getting Date in Rails Format
+        var d = new Date();
+        var date= ""+d.getFullYear().toString()+"-"+d.getMonth().toString()+"-"+this.id;
+        date = "2015-02-03"
+        //For User Toggle Selection
+        var selection;
+        if(this.checked)
+          selection="No"
+        else
+          selection="Yes"
+
+        //For User ID
+        var user_id = $('div#calendar').data('user_id');
+        
+        $.ajax({
+          type:'POST',
+          url:'/food_counts',
+          data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
+          success: function(result){
+
+        
+          }
+        })
+
+      
+
+    })
+
+
+
+
+    
+});

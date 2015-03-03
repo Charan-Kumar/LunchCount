@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :food_counts
+
   root 'home#index'
   get 'home/dashboard'
 
