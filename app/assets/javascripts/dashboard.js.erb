@@ -1,57 +1,131 @@
-$(document).ready(function() {
-      $('#calendar').fullCalendar({
-      firstDay:1,
-      contentHeight: 600,
-      weekends: true,
-      header:{
-        left:   '',
-        center: 'title',
-        right:  ''
-      },
-    })
+$(document).ready(function() 
+{
+  $('#calendar').fullCalendar({
+    firstDay:1,
+    contentHeight: 600,
+    weekends: true,
+    header:{
+      left:   '',
+      center: 'title',
+      right:  ''
+    },
+  })
 
+  $.ajax(
+  {
+    url: "/food_counts",
+    type: "GET", 
+    dataType: "json",
+    success: function(response){
+      console.log("Sucessfully Get the Data From DataBase")
+      load_toggles(response);
+        
+     }
+   });
+
+
+  function search_date(response,date)
+  { 
+    
+    for( var i in response)
+    {
+      
+      if((response[i].date).toString()==date)
+        return true
+
+    }
+  }
+
+  function get_selection(response,date)
+  {
+    for( var i in response)
+    {
+      if((response[i].date).toString()==date)
+        return (response[i].selection).toString()
+
+    }
+  }
+
+  function get_date(day)
+  {
+
+    var d = new Date();
+    var date= ""+d.getFullYear().toString()+"-"+("0" + (d.getMonth() + 1)).slice(-2)+"-"+("0" + day).slice(-2).toString();
+    return date;
+
+  }
+
+
+
+
+  function load_toggles(response)
+  {
     $('td .fc-day').not(".fc-other-month").each(function(index){
 
-      var toggle_id = (index+1).toString();
-      $(this).append('<center><br><br><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="toggle_id" checked><label id="label_id" class="onoffswitch-label" for="xyz"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div></center>');
+      var toggle_id = ("0" + (index+1)).slice(-2).toString();
+      if ( $(this).hasClass("fc-sun") || $(this).hasClass("fc-sat") )
+        return;
+      
+
+      $(this).append('<center><br><br><div class="onoffswitch"><input type="checkbox" data-status="unsaved" name="onoffswitch" class="onoffswitch-checkbox" id="toggle_id" checked><label id="label_id" class="onoffswitch-label" for="xyz"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div></center>');
       document.getElementById("toggle_id").setAttribute("id",toggle_id);
       $('label#label_id').attr("for", toggle_id);
       $('label#label_id').attr("id", toggle_id);
-           
-    })
-
-    $('.onoffswitch-checkbox').on("change",function(){
-
-        // For Getting Date in Rails Format
-        var d = new Date();
-        var date= ""+d.getFullYear().toString()+"-"+d.getMonth().toString()+"-"+this.id;
-        date = "2015-02-03"
-        //For User Toggle Selection
-        var selection;
-        if(this.checked)
-          selection="No"
-        else
-          selection="Yes"
-
-        //For User ID
-        var user_id = $('div#calendar').data('user_id');
-        
-        $.ajax({
-          type:'POST',
-          url:'/food_counts',
-          data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
-          success: function(result){
-
-        
-          }
-        })
-
-      
-
-    })
 
 
+   
+      date=get_date(index+1)
 
+      if(search_date(response,date))
+      {
+        console.log("true")
+        if(get_selection(response,date)=='Yes')
+        {
+          console.log("Hello")
+          $('#' + toggle_id).prop('checked', false);
+          
+        }
+      }
 
+      if( $(this).hasClass('fc-past') )
+      {
+        $('input').attr("disabled", true);
+      }
     
+            
+    })
+
+  }
+    
+  $(document).on("change", '.onoffswitch-checkbox', function(){
+      // For Getting Date in Rails Format
+      var d = new Date();
+      var date= ""+d.getFullYear().toString()+"-"+d.getMonth().toString()+"-"+this.id;
+      
+      //For User Toggle Selection
+      var selection;
+      if(this.checked)
+        selection="No"
+      else
+        selection="Yes"
+
+      //For User ID
+      var user_id = $('div#calendar').attr('data-user');
+    
+      $.ajax({
+        type:'POST',
+        url:'/food_counts',
+        data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
+        success: function(result){
+          console.log("Data Created");
+        },
+        
+        error: function(e){
+           
+          
+        }
+      })
+    })
+
 });
+

@@ -5,7 +5,11 @@ class FoodCountsController < ApplicationController
 
   def index
     @food_counts = FoodCount.all
-    respond_with(@food_counts)
+    respond_to do |format|
+      format.html # this handles normal requests asking for html
+      format.json{ render json: @food_counts }
+    end
+
   end
 
   def show
