@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'admin/index'
+
+  get 'admin/users'
+
+  get 'admin/foodcount'
+
   resources :food_counts
 
   root 'home#index'

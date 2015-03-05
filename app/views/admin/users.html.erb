@@ -1,0 +1,33 @@
+<center><h2>Food Count Users</h2></center>
+
+<div id="user_table" class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>User Name</th>
+                  <th>Email Id</th>
+                  <th>Role</th>
+                  <th></th>
+               
+                </tr>
+              </thead>
+              <tbody>
+              <% @all_users.each do |user|%>
+                <tr>
+                  <td><%= user.user_name %></td>
+                  <td><%= user.email %></td>
+                  <td>
+                  <% if user.is_admin %>
+                    Admin
+
+                  <%else%>
+                    Normal User
+                  <% end %>
+
+                  </td>
+                  <td></td>
+                </tr>
+              <% end %>
+              </tbody>
+        </table>
+</div>

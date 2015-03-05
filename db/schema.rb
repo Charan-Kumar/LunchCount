@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150303063500) do
+ActiveRecord::Schema.define(version: 20150305073923) do
 
   create_table "food_counts", force: true do |t|
     t.integer  "user_id"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20150303063500) do
     t.string   "provider"
     t.string   "uid"
     t.string   "user_name"
+    t.boolean  "is_admin",               default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
