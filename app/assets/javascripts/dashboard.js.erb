@@ -71,7 +71,29 @@ $(document).ready(function()
     
   }
 
-  
+  function update_newly_created_record()
+  {
+    $.ajax(
+    {
+    url: "/food_counts",
+    type: "GET", 
+    dataType: "json",
+    success: function(response){
+      $('td .fc-day').not(".fc-other-month").each(function(index){
+        var toggle_id = ("0" + (index+1)).slice(-2).toString();
+        date=get_date(index+1)
+        is_saved = get_db_id(response,date)
+        if(is_saved)
+        {
+          $('#' + toggle_id).attr('db_id',is_saved)
+        }
+      })
+
+
+    }
+    });
+
+  }
 
 
 
@@ -148,6 +170,9 @@ $(document).ready(function()
         console.log("Data Created");
         }
       })
+
+      update_newly_created_record()
+
       var db_id = $(this).attr('db_id')
       var update_url = '/food_counts/'+ db_id      
       
