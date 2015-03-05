@@ -10,9 +10,12 @@ $(document).ready(function()
       right:  ''
     },
   })
-
-  $.ajax(
+  reload_data()
+  
+  function reload_data()
   {
+    $.ajax(
+    {
     url: "/food_counts",
     type: "GET", 
     dataType: "json",
@@ -21,7 +24,8 @@ $(document).ready(function()
       load_toggles(response);
         
      }
-   });
+    });
+  }
 
 
   function search_date(response,date)
@@ -30,7 +34,7 @@ $(document).ready(function()
     for( var i in response)
     {
       
-      if((response[i].date).toString()==date)
+      if( response[i].date == date)
         return true
 
     }
@@ -40,8 +44,8 @@ $(document).ready(function()
   {
     for( var i in response)
     {
-      if((response[i].date).toString()==date)
-        return (response[i].selection).toString()
+      if(response[i].date == date)
+        return response[i].selection
 
     }
   }
@@ -50,11 +54,24 @@ $(document).ready(function()
   {
 
     var d = new Date();
-    var date= ""+d.getFullYear().toString()+"-"+("0" + (d.getMonth() + 1)).slice(-2)+"-"+("0" + day).slice(-2).toString();
+    var date= ""+d.getFullYear().toString()+"-"+("0" + (d.getMonth()+1)).slice(-2)+"-"+("0" + day).slice(-2).toString();
     return date;
 
   }
 
+  
+  function get_db_id(response,date)
+  {
+    for( var i in response)
+    {
+      if(response[i].date == date)
+        return response[i].id
+
+    }
+    
+  }
+
+  
 
 
 
@@ -75,21 +92,31 @@ $(document).ready(function()
 
    
       date=get_date(index+1)
+      is_saved = get_db_id(response,date)
+      if(is_saved)
+      {
+        $('#' + toggle_id).attr('db_id',is_saved)
+      }
+
 
       if(search_date(response,date))
       {
-        console.log("true")
+        
         if(get_selection(response,date)=='Yes')
         {
-          console.log("Hello")
           $('#' + toggle_id).prop('checked', false);
-          
+          //$('#' + toggle_id).attr('data-status', "saved")
+              
+        }
+        else{
+          $('#' + toggle_id).prop('checked', true);
         }
       }
 
       if( $(this).hasClass('fc-past') )
       {
         $('input').attr("disabled", true);
+        
       }
     
             
@@ -98,10 +125,11 @@ $(document).ready(function()
   }
     
   $(document).on("change", '.onoffswitch-checkbox', function(){
+
+      
       // For Getting Date in Rails Format
       var d = new Date();
-      var date= ""+d.getFullYear().toString()+"-"+d.getMonth().toString()+"-"+this.id;
-      
+      var date= ""+d.getFullYear().toString()+"-"+("0" + (d.getMonth()+1)).slice(-2)+"-"+this.id;
       //For User Toggle Selection
       var selection;
       if(this.checked)
@@ -111,20 +139,32 @@ $(document).ready(function()
 
       //For User ID
       var user_id = $('div#calendar').attr('data-user');
-    
+      var input_id = this.id
       $.ajax({
-        type:'POST',
-        url:'/food_counts',
-        data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
-        success: function(result){
-          console.log("Data Created");
-        },
-        
-        error: function(e){
-           
-          
+      type:'POST',
+      url:'/food_counts',
+      data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
+      success: function(result){
+        console.log("Data Created");
         }
       })
+      var db_id = $(this).attr('db_id')
+      var update_url = '/food_counts/'+ db_id      
+      
+      if( db_id )
+      {
+        $.ajax({
+          type: 'PUT',
+          url: update_url,
+          data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
+          success: function(result){
+            console.log("Data Updated");
+            }
+        })
+      }
+
+             
+      
     })
 
 });

@@ -4,12 +4,12 @@ class FoodCountsController < ApplicationController
   respond_to :html
 
   def index
-    @food_counts = FoodCount.all
+    current_id = User.find(current_user).id
+    @food_counts = FoodCount.where(user_id:current_id)
     respond_to do |format|
       format.html # this handles normal requests asking for html
       format.json{ render json: @food_counts }
     end
-
   end
 
   def show
@@ -47,6 +47,7 @@ class FoodCountsController < ApplicationController
     @food_count.destroy
     respond_with(@food_count)
   end
+
 
   private
     def set_food_count
