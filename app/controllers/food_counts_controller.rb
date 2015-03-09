@@ -8,7 +8,7 @@ class FoodCountsController < ApplicationController
     bom = dt.beginning_of_month
     eom = dt.end_of_month
     current_id = User.find(current_user).id
-    @food_counts = FoodCount.where("date >= ? and date <= ? and user_id == ? ", bom, eom,current_id)
+    @food_counts = FoodCount.where("date >= ? and date <= ? and user_id = ? ", bom, eom,current_id)
     respond_to do |format|
       format.html # this handles normal requests asking for html
       format.json{ render json: @food_counts }
