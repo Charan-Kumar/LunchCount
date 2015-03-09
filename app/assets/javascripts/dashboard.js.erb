@@ -1,4 +1,4 @@
-$(document).ready(function() 
+$(document).on('page:load ready',function() 
 {
   $('#calendar').fullCalendar({
     firstDay:1,
@@ -175,18 +175,17 @@ $(document).ready(function()
 
       var db_id = $(this).attr('db_id')
       var update_url = '/food_counts/'+ db_id      
+          
       
-      if( db_id )
-      {
-        $.ajax({
-          type: 'PUT',
-          url: update_url,
-          data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
-          success: function(result){
-            console.log("Data Updated");
-            }
-        })
-      }
+      $.ajax({
+        type: 'PUT',
+        url: update_url,
+        data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
+        success: function(result){
+          console.log("Data Updated");
+          }
+      })
+      
 
              
       

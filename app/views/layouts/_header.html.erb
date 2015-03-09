@@ -4,7 +4,14 @@
     <div class="navbar-header">
       <%= link_to "Lunch Count", :root, :class => "navbar-brand" %>
     </div>
-
+    <ul class="nav navbar-nav navbar-left">
+      <% if user_signed_in? %>
+          <% if current_user.is_admin %>
+            <li><%= link_to "Users",:admin_users %></li>
+            <li><%= link_to "Food Count", :admin_foodcount %></li>
+          <% end %>
+      <% end %>
+    </ul>
     <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
           <li class="navbar-text">Weclome <%= current_user.user_name %></li>
@@ -12,6 +19,6 @@
         <% else %>
           <li><%= link_to "Sign in Crypsis Account", user_omniauth_authorize_path(:google_oauth2) %></li>
         <% end %>
-    </ul>
+     </ul>
   </div>
 </nav>

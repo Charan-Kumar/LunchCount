@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
+  
   get 'admin/index'
-
   get 'admin/users'
-
   get 'admin/foodcount'
 
   resources :food_counts
@@ -10,7 +9,14 @@ Rails.application.routes.draw do
   root 'home#index'
   get 'home/dashboard'
 
-  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
+  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" } do
+    get 'users', :to => 'admin#users'
+  end
+  resources :users
+
+
+  
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

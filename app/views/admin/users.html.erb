@@ -1,5 +1,4 @@
 <center><h2>Food Count Users</h2></center>
-
 <div id="user_table" class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -7,6 +6,7 @@
                   <th>User Name</th>
                   <th>Email Id</th>
                   <th>Role</th>
+                  <th></th>
                   <th></th>
                
                 </tr>
@@ -21,11 +21,12 @@
                     Admin
 
                   <%else%>
-                    Normal User
+                    User
                   <% end %>
 
                   </td>
-                  <td></td>
+                  <td><%= link_to 'Destroy', user_path(user), method: :delete, data: { confirm: 'Do You Want to Delete the User?' } %></td>
+                  <td><%= link_to 'Edit', edit_user_path(:id=>user.id) %></td>
                 </tr>
               <% end %>
               </tbody>

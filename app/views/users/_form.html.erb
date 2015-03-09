@@ -1,0 +1,43 @@
+<div id="edit_form" class="border-form-div">
+<%= form_for @user do |f| %>
+  <% if @user.errors.any? %>
+    <div class="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :email %>
+    <div class="controls">
+      <%= f.email_field :email %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= f.label :user_name %>
+    <div class="controls">
+      <%= f.text_field :user_name %>
+    </div>
+  </div>
+  
+  <div>
+  <%= label :is_admin, "Role of the User" %><br>
+  <%= label :is_admin, "Normal" %>
+  <%= f.radio_button :is_admin, false , :checked => true , :value => false %>
+  </div>
+  <div>
+  <%= label :is_admin, "Admin"%>
+  <%= f.radio_button :is_admin, true, :value => true%>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+</div>
