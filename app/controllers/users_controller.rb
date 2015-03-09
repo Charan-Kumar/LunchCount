@@ -16,6 +16,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @food_data= FoodCount.where(user_id:params[:id])
+    @food_data.destroy_all
     @user = User.find(params[:id])
     @user.destroy
     redirect_to admin_users_path, :flash => { :notice => 'User was successfully deleted.' }

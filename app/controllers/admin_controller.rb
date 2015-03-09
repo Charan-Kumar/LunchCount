@@ -5,5 +5,7 @@ class AdminController < ApplicationController
   end
 
   def foodcount
+     @fc = FoodCount.by_month
+     @today = Date.today
   end
 end

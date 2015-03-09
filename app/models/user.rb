@@ -29,4 +29,11 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+  def self.by_month()
+    dt = Date.today
+    bom = dt.beginning_of_month
+    eom = dt.end_of_month
+    where("date >= ? and date <= ?", boy, eoy)
+  end
 end
