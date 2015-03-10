@@ -9,15 +9,30 @@
                 </tr>
               </thead>
               <tbody>
-              <% @fc.each do |c|%>
-                <tr
-                  <%if c[0] == @today%>
-                    style="color:red;text-decoration:underline;background-color: pink;"
-                  <% end %>>
-                  <td><%= c[0]%></td>
-                  <td><%= c[1] %></td>
+              <% for i in Date.today.beginning_of_month..Date.today.end_of_month %>
+                <tr <% if i == Date.today%>
+                      style="color:red;font-weight:bold;"
+                    <% end %>
+                > 
+                <td><%= i.strftime("%d-%m-%Y") %></td>
+                <% flag =0%>
+                <td><% @fc.each do |f|%>
+                      <% if f[0]==i%>
+                        <%= f[1]%>
+                        <% flag =1%>
+                        <%break%>
+                      <% end %>
+                    <% end %>
+                    <% if(flag ==0)%>
+                    0
+                    <%end%>
+                </td>
                 </tr>
               <% end %>
+
+
+
+              
               </tbody>
         </table>
 </div>

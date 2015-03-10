@@ -118,6 +118,7 @@ $(document).on('page:load ready',function()
       if(is_saved)
       {
         $('#' + toggle_id).attr('db_id',is_saved)
+        $('#' + toggle_id).attr('status',"saved")
       }
 
 
@@ -162,29 +163,33 @@ $(document).on('page:load ready',function()
       //For User ID
       var user_id = $('div#calendar').attr('data-user');
       var input_id = this.id
-      $.ajax({
-      type:'POST',
-      url:'/food_counts',
-      data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
-      success: function(result){
-        console.log("Data Created");
-        }
-      })
 
-      update_newly_created_record()
-
-      var db_id = $(this).attr('db_id')
-      var update_url = '/food_counts/'+ db_id      
-          
-      
-      $.ajax({
-        type: 'PUT',
-        url: update_url,
+      var status = $(this).attr('status')
+      if(status != "saved"){
+        $.ajax({
+        type:'POST',
+        url:'/food_counts',
         data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
         success: function(result){
-          console.log("Data Updated");
+          console.log("Data Created");
+          update_newly_created_record()
           }
-      })
+        })
+      }
+      else{
+        var db_id = $(this).attr('db_id')
+        var update_url = '/food_counts/'+ db_id      
+        
+        
+        $.ajax({
+          type: 'PUT',
+          url: update_url,
+          data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
+          success: function(result){
+            console.log("Data Updated");
+            }
+        })
+      }
       
 
              
