@@ -35,20 +35,11 @@ $(document).on('page:load ready',function()
     {
       
       if( response[i].date == date)
-        return true
+        return response[i]
 
     }
   }
 
-  function get_selection(response,date)
-  {
-    for( var i in response)
-    {
-      if(response[i].date == date)
-        return response[i].selection
-
-    }
-  }
 
   function get_date(day)
   {
@@ -121,11 +112,11 @@ $(document).on('page:load ready',function()
         $('#' + toggle_id).attr('status',"saved")
       }
 
-
-      if(search_date(response,date))
+      var record = search_date(response,date)
+      if(record)
       {
         
-        if(get_selection(response,date)=='Yes')
+        if(record.selection=='Yes')
         {
           $('#' + toggle_id).prop('checked', false);
           //$('#' + toggle_id).attr('data-status', "saved")
