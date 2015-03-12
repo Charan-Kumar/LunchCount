@@ -1,5 +1,7 @@
 $(document).on('page:load ready',function() 
 {
+  var d = new Date();
+  var month = d.getMonth();
   $('#calendar').fullCalendar({
     firstDay:1,
     contentHeight: 600,
@@ -11,15 +13,18 @@ $(document).on('page:load ready',function()
     },
   })
   reload_data()
-  var d = new Date();
-  var month = d.getMonth()+1;
+  
+  
   function reload_data()
   {
+    console.log(month);
+    var d=get_date(01,month)
     $.ajax(
     {
     url: "/food_counts",
     type: "GET", 
     dataType: "json",
+    data:{date:d} ,
     success: function(response){
       console.log("Sucessfully Get the Data From DataBase")
       load_toggles(response);
@@ -28,14 +33,20 @@ $(document).on('page:load ready',function()
     });
   }
 
-  $('.fc-icon-right-single-arrow').on('click', function(){
+  $('.fc-next-button').on('click', function(){
     month++;
-    console.log(month);
+    if (month > 11)
+      month = 0
+    
+    reload_data()
     
   });
-  $('.fc-icon-left-single-arrow').on('click', function(){
+  $('.fc-prev-button').on('click', function(){
     month--;
-    console.log(month);
+    if (month < 0)
+      month = 11
+    reload_data()
+    
   });
 
   function search_date(response,date)
@@ -64,11 +75,11 @@ $(document).on('page:load ready',function()
   }
 
 
-  function get_date(day)
+  function get_date(day,month)
   {
 
     var d = new Date();
-    var date= ""+d.getFullYear().toString()+"-"+("0" + (d.getMonth()+1)).slice(-2)+"-"+("0" + day).slice(-2).toString();
+    var date= ""+d.getFullYear().toString()+"-"+("0" + (month+1)).slice(-2)+"-"+("0" + day).slice(-2).toString();
     return date;
 
   }
@@ -87,15 +98,17 @@ $(document).on('page:load ready',function()
 
   function update_newly_created_record()
   {
+    var d=get_date(01,month)
     $.ajax(
     {
     url: "/food_counts",
     type: "GET", 
     dataType: "json",
+    data:{date:d} ,
     success: function(response){
       $('td .fc-day').not(".fc-other-month").each(function(index){
         var toggle_id = ("0" + (index+1)).slice(-2).toString();
-        date=get_date(index+1)
+        date=get_date(index+1,month)
         is_saved = get_db_id(response,date)
         if(is_saved)
         {
@@ -127,7 +140,7 @@ $(document).on('page:load ready',function()
 
 
    
-      date=get_date(index+1)
+      date=get_date(index+1,month)
       is_saved = get_db_id(response,date)
       if(is_saved)
       {
@@ -166,7 +179,8 @@ $(document).on('page:load ready',function()
       
       // For Getting Date in Rails Format
       var d = new Date();
-      var date= ""+d.getFullYear().toString()+"-"+("0" + (d.getMonth()+1)).slice(-2)+"-"+this.id;
+      var date= ""+d.getFullYear().toString()+"-"+("0" + (month+1)).slice(-2)+"-"+this.id;
+      console.log(date);
       //For User Toggle Selection
       var selection;
       if(this.checked)

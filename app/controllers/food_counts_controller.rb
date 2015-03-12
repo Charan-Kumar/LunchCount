@@ -4,7 +4,7 @@ class FoodCountsController < ApplicationController
   respond_to :html
 
   def index
-    dt = Date.today
+    dt = Date.parse(params[:date])
     bom = dt.beginning_of_month
     eom = dt.end_of_month
     current_id = User.find(current_user).id
