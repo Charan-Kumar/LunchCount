@@ -202,8 +202,9 @@ $(document).on('page:load ready',function()
         type:'POST',
         url:'/food_counts',
         data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
+        ataType:'text',
         success: function(result){
-          console.log("Data Created");
+          console.log(result);
           update_newly_created_record()
           }
         })

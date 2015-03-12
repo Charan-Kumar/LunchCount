@@ -31,11 +31,9 @@ class FoodCountsController < ApplicationController
     @food_count = FoodCount.new(food_count_params)
     respond_to do |format|
       if @food_count.save
-        format.html { redirect_to @food_count, notice: 'FoodCount was successfully created.' }
-        format.json { render json: @food_count, status: :created, location: @food_count }
+        format.text {render :text => "Successfully Created"}
       else
-        format.html { render action: "new" }
-        format.json { render json: @food_count.errors, status: :unprocessable_entity }
+        format.text {render :text => "Error Creating Date"}
       end
     end
 
