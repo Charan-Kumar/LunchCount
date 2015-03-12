@@ -18,7 +18,7 @@ $(document).on('page:load ready',function()
   
   function reload_data()
   {
-    var d=get_date(01,month)
+    var d=get_date(01,month,year)
     $.ajax(
     {
     url: "/food_counts",
@@ -37,8 +37,9 @@ $(document).on('page:load ready',function()
     month++;
     if (month > 11)
     {
-      year++;
       month = 0
+      year++;
+      
     }
     reload_data()
     
@@ -47,8 +48,8 @@ $(document).on('page:load ready',function()
     month--;
     if (month < 0)
     {
-      year--;
       month = 11
+      year--;
     }
     reload_data()
     
@@ -80,7 +81,7 @@ $(document).on('page:load ready',function()
   }
 
 
-  function get_date(day,month)
+  function get_date(day,month,year)
   {
 
     var d = new Date();
@@ -101,9 +102,9 @@ $(document).on('page:load ready',function()
     
   }
 
-  function update_newly_created_record()
+  function update_newly_created_record(date)
   {
-    var d=get_date(01,month)
+    var d=get_date(01,month,year)
     $.ajax(
     {
     url: "/food_counts",
@@ -112,12 +113,11 @@ $(document).on('page:load ready',function()
     data:{date:d} ,
     success: function(response){
       $('td .fc-day').not(".fc-other-month").each(function(index){
-        var toggle_id = ("0" + (index+1)).slice(-2).toString();
-        date=get_date(index+1,month)
         is_saved = get_db_id(response,date)
         if(is_saved)
         {
-          $('#' + toggle_id).attr('db_id',is_saved)
+          $('#' + date).attr('db_id',is_saved)
+          $('#' + date).attr('status',"saved")
         }
       })
 
@@ -133,19 +133,19 @@ $(document).on('page:load ready',function()
   {
     $('td .fc-day').not(".fc-other-month").each(function(index){
 
-      var toggle_id = ("0" + (index+1)).slice(-2).toString();
+      var toggle_id = get_date((index+1),month,year);
       if ( $(this).hasClass("fc-sun") || $(this).hasClass("fc-sat") )
         return;
       
 
-      $(this).append('<center><br><br><div class="onoffswitch"><input type="checkbox" data-status="unsaved" name="onoffswitch" class="onoffswitch-checkbox" id="toggle_id" checked><label id="label_id" class="onoffswitch-label" for="xyz"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div></center>');
+      $(this).append('<center><br><br><div class="onoffswitch"><input type="checkbox" status="unsaved" name="onoffswitch" class="onoffswitch-checkbox" id="toggle_id" checked><label id="label_id" class="onoffswitch-label" for="xyz"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div></center>');
       document.getElementById("toggle_id").setAttribute("id",toggle_id);
       $('label#label_id').attr("for", toggle_id);
       $('label#label_id').attr("id", toggle_id);
 
 
    
-      date=get_date(index+1,month)
+      date=get_date(index+1,month,year)
       is_saved = get_db_id(response,date)
       if(is_saved)
       {
@@ -178,13 +178,13 @@ $(document).on('page:load ready',function()
     })
 
   }
-    
+  
   $(document).on("change", '.onoffswitch-checkbox', function(){
 
-      
       // For Getting Date in Rails Format
       var d = new Date();
-      var date= ""+year.toString()+"-"+("0" + (month+1)).slice(-2)+"-"+this.id;
+      var date= ""+year.toString()+"-"+("0" + (month+1)).slice(-2)+"-"+this.id.slice(8);
+      console.log(date);
       //For User Toggle Selection
       var selection;
       if(this.checked)
@@ -205,7 +205,7 @@ $(document).on('page:load ready',function()
         ataType:'text',
         success: function(result){
           console.log(result);
-          update_newly_created_record()
+          update_newly_created_record(date)
           }
         })
       }
@@ -231,6 +231,5 @@ $(document).on('page:load ready',function()
             
       
     })
-
 });
 
