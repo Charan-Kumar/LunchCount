@@ -7,11 +7,12 @@ $(document).on('page:load ready',function()
     header:{
       left:   '',
       center: 'title',
-      right:  ''
+      right:  'prev next'
     },
   })
   reload_data()
-  
+  var d = new Date();
+  var month = d.getMonth()+1;
   function reload_data()
   {
     $.ajax(
@@ -27,7 +28,29 @@ $(document).on('page:load ready',function()
     });
   }
 
+  $('.fc-icon-right-single-arrow').on('click', function(){
+    month++;
+    console.log(month);
+    
+  });
+  $('.fc-icon-left-single-arrow').on('click', function(){
+    month--;
+    console.log(month);
+  });
 
+  function search_date(response,date)
+  { 
+    
+    for( var i in response)
+    {
+      
+      if( response[i].date == date)
+        return response[i]
+
+    }
+  }
+
+  
   function search_date(response,date)
   { 
     
@@ -120,7 +143,7 @@ $(document).on('page:load ready',function()
         {
           $('#' + toggle_id).prop('checked', false);
           //$('#' + toggle_id).attr('data-status', "saved")
-              
+
         }
         else{
           $('#' + toggle_id).prop('checked', true);
@@ -171,19 +194,22 @@ $(document).on('page:load ready',function()
         var db_id = $(this).attr('db_id')
         var update_url = '/food_counts/'+ db_id      
         
-        
         $.ajax({
           type: 'PUT',
           url: update_url,
+          dataType:'text',
           data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
           success: function(result){
             console.log("Data Updated");
-            }
+            },
+          error:function(e){
+            console.log(e)
+            
+          }
         })
       }
       
-
-             
+            
       
     })
 

@@ -43,7 +43,9 @@ class FoodCountsController < ApplicationController
 
   def update
     @food_count.update(food_count_params)
-    respond_with(@food_count)
+    respond_with do |format|
+      format.text {render :text => "Successfully Updated"}
+    end
   end
 
   def destroy
