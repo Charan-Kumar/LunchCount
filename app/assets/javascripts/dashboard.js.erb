@@ -2,6 +2,7 @@ $(document).on('page:load ready',function()
 {
   var d = new Date();
   var month = d.getMonth();
+  var year = d.getFullYear();
   $('#calendar').fullCalendar({
     firstDay:1,
     contentHeight: 600,
@@ -17,7 +18,6 @@ $(document).on('page:load ready',function()
   
   function reload_data()
   {
-    console.log(month);
     var d=get_date(01,month)
     $.ajax(
     {
@@ -36,15 +36,20 @@ $(document).on('page:load ready',function()
   $('.fc-next-button').on('click', function(){
     month++;
     if (month > 11)
+    {
+      year++;
       month = 0
-    
+    }
     reload_data()
     
   });
   $('.fc-prev-button').on('click', function(){
     month--;
     if (month < 0)
+    {
+      year--;
       month = 11
+    }
     reload_data()
     
   });
@@ -79,7 +84,7 @@ $(document).on('page:load ready',function()
   {
 
     var d = new Date();
-    var date= ""+d.getFullYear().toString()+"-"+("0" + (month+1)).slice(-2)+"-"+("0" + day).slice(-2).toString();
+    var date= ""+year.toString()+"-"+("0" + (month+1)).slice(-2)+"-"+("0" + day).slice(-2).toString();
     return date;
 
   }
@@ -179,8 +184,7 @@ $(document).on('page:load ready',function()
       
       // For Getting Date in Rails Format
       var d = new Date();
-      var date= ""+d.getFullYear().toString()+"-"+("0" + (month+1)).slice(-2)+"-"+this.id;
-      console.log(date);
+      var date= ""+year.toString()+"-"+("0" + (month+1)).slice(-2)+"-"+this.id;
       //For User Toggle Selection
       var selection;
       if(this.checked)
