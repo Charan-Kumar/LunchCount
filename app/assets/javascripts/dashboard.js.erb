@@ -102,7 +102,7 @@ $(document).on('page:load ready',function()
     
   }
 
-  function update_newly_created_record(date)
+  function set_db_id(date)
   {
     var d=get_date(01,month,year)
     $.ajax(
@@ -179,7 +179,7 @@ $(document).on('page:load ready',function()
 
   }
   
-  $(document).on("change", '.onoffswitch-checkbox', function(){
+  $(document).on("change",'.onoffswitch-checkbox', function(){
 
       // For Getting Date in Rails Format
       var d = new Date();
@@ -191,12 +191,20 @@ $(document).on('page:load ready',function()
         selection="No"
       else
         selection="Yes"
+      
 
       //For User ID
       var user_id = $('div#calendar').attr('data-user');
       var input_id = this.id
+      
+      // var d = Date(Date.parse(date))
+      // var firstDay = new Date(d.getFullYear(), d.getMonth(), 1);
+      // var lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0); 
+      // console.log(d);
+
 
       var status = $(this).attr('status')
+      debugger;
       if(status != "saved"){
         $.ajax({
         type:'POST',
@@ -205,14 +213,14 @@ $(document).on('page:load ready',function()
         ataType:'text',
         success: function(result){
           console.log(result);
-          update_newly_created_record(date)
+          set_db_id(date)
           }
         })
+        return;
       }
       else{
         var db_id = $(this).attr('db_id')
         var update_url = '/food_counts/'+ db_id      
-        
         $.ajax({
           type: 'PUT',
           url: update_url,
@@ -220,12 +228,14 @@ $(document).on('page:load ready',function()
           data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
           success: function(result){
             console.log("Data Updated");
+            
             },
           error:function(e){
             console.log(e)
             
           }
         })
+        return;
       }
       
             
