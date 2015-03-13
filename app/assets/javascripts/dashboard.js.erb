@@ -215,9 +215,10 @@ $(document).on('page:load ready',function()
           success: function(result){
             console.log(result);
             set_db_id(date)
+
             }
-          })
-          return;
+          });
+         
         }
         else{
           var db_id = $(this).attr('db_id')
@@ -235,8 +236,8 @@ $(document).on('page:load ready',function()
               console.log(e)
               
             }
-          })
-          return;
+          });
+          
         }
       }
             
