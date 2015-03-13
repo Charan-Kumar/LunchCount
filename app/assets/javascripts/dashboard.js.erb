@@ -179,12 +179,12 @@ $(document).on('page:load ready',function()
 
   }
   
-  $(document).on("change",'.onoffswitch-checkbox', function(){
+  $(document).on("click",'.onoffswitch-checkbox', function(){
 
       // For Getting Date in Rails Format
       var d = new Date();
       var date= ""+year.toString()+"-"+("0" + (month+1)).slice(-2)+"-"+this.id.slice(8);
-      console.log(date);
+      console.log("Hello "+date);
       //For User Toggle Selection
       var selection;
       if(this.checked)
@@ -202,9 +202,8 @@ $(document).on('page:load ready',function()
       // var lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0); 
       // console.log(d);
 
-
+     
       var status = $(this).attr('status')
-      debugger;
       if(status != "saved"){
         $.ajax({
         type:'POST',
