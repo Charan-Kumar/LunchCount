@@ -184,7 +184,9 @@ $(document).on('page:load ready',function()
       // For Getting Date in Rails Format
       var d = new Date();
       var date= ""+year.toString()+"-"+("0" + (month+1)).slice(-2)+"-"+this.id.slice(8);
-      console.log("Hello "+date);
+      
+      var date_month=date.slice(5,7);
+      var current_month="0"+(month+1).toString().slice(-2);
       //For User Toggle Selection
       var selection;
       if(this.checked)
@@ -195,48 +197,48 @@ $(document).on('page:load ready',function()
 
       //For User ID
       var user_id = $('div#calendar').attr('data-user');
-      var input_id = this.id
+
       
       // var d = Date(Date.parse(date))
       // var firstDay = new Date(d.getFullYear(), d.getMonth(), 1);
       // var lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0); 
       // console.log(d);
 
-     
-      var status = $(this).attr('status')
-      if(status != "saved"){
-        $.ajax({
-        type:'POST',
-        url:'/food_counts',
-        data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
-        ataType:'text',
-        success: function(result){
-          console.log(result);
-          set_db_id(date)
-          }
-        })
-        return;
-      }
-      else{
-        var db_id = $(this).attr('db_id')
-        var update_url = '/food_counts/'+ db_id      
-        $.ajax({
-          type: 'PUT',
-          url: update_url,
-          dataType:'text',
+      if (current_month == date_month) {
+        var status = $(this).attr('status')
+        if(status != "saved"){
+          $.ajax({
+          type:'POST',
+          url:'/food_counts',
           data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
+          ataType:'text',
           success: function(result){
-            console.log("Data Updated");
-            
-            },
-          error:function(e){
-            console.log(e)
-            
-          }
-        })
-        return;
+            console.log(result);
+            set_db_id(date)
+            }
+          })
+          return;
+        }
+        else{
+          var db_id = $(this).attr('db_id')
+          var update_url = '/food_counts/'+ db_id      
+          $.ajax({
+            type: 'PUT',
+            url: update_url,
+            dataType:'text',
+            data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
+            success: function(result){
+              console.log("Data Updated");
+              
+              },
+            error:function(e){
+              console.log(e)
+              
+            }
+          })
+          return;
+        }
       }
-      
             
       
     })
