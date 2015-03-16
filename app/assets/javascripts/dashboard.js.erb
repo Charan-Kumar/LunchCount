@@ -156,6 +156,10 @@ $(document).on('page:load ready',function()
         $('input').attr("disabled", true);
         
       }
+      if( $(this).hasClass('fc-past') )
+      {
+       $('.fc-past').not('.fc-sun,.fc-sat,.fc-other-month,.fc-future ').css("background-color", "#D3D3D3");     
+      }
     
             
     })

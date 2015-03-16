@@ -6,6 +6,8 @@ class AdminController < ApplicationController
 
   def foodcount
      @fc = FoodCount.by_month
+     @fc_next = FoodCount.by_next_month
      @today = Date.today
+     @next_month = Date.today+1.month
   end
 end

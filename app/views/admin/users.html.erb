@@ -31,7 +31,13 @@
                   <td><%= link_to 'Destroy',  user_path(user), method: :delete, data: { confirm: 'Do You Want to Delete the User?' },:class => "btn btn-danger" %></td>
 
                   <% end %>
+                  <% if(current_user.id == user.id)%>
+                  <td><%= link_to 'Edit', admin_users_path, data: { confirm: 'You cant edit your own account' },:class => "btn btn-default" %></td>
+                  <%else%>
                   <td><%= link_to 'Edit', edit_user_path(:id=>user.id),:class => "btn btn-default" %></td>
+
+                  <% end %>
+
                 </tr>
               <% end %>
               </tbody>
