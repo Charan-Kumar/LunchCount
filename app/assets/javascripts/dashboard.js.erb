@@ -13,12 +13,12 @@ $(document).on('page:load ready',function()
       right:  'prev next'
     },
   })
-  reload_data()
+  reload_data();
   
   
   function reload_data()
   {
-    var d=get_date(01,month,year)
+    var d=get_date(01,month,year);
     $.ajax(
     {
     url: "/food_counts",
@@ -37,21 +37,21 @@ $(document).on('page:load ready',function()
     month++;
     if (month > 11)
     {
-      month = 0
+      month = 0;
       year++;
       
     }
-    reload_data()
+    reload_data();
     
   });
   $('.fc-prev-button').on('click', function(){
     month--;
     if (month < 0)
     {
-      month = 11
+      month = 11;
       year--;
     }
-    reload_data()
+    reload_data();
     
   });
 
@@ -63,7 +63,7 @@ $(document).on('page:load ready',function()
     {
       
       if( response[i].date == date)
-        return response[i]
+        return response[i];
 
     }
   }
@@ -84,13 +84,13 @@ $(document).on('page:load ready',function()
     for( var i in response)
     {
       if(response[i].date == date)
-        return response[i].id
+        return response[i].id;
 
     }
     
   }
 
-  function set_db_id(date)
+  function set_db_id(date,e)
   {
     var d=get_date(01,month,year)
     $.ajax(
@@ -107,8 +107,7 @@ $(document).on('page:load ready',function()
         $('#' + date).attr('status',"saved")
       }
       console.log("DB ID Updated");
-
-
+      $(e).attr("disabled",false);
     }
     });
 
@@ -134,12 +133,11 @@ $(document).on('page:load ready',function()
       is_saved = get_db_id(response,date)
       if(is_saved)
       {
-        $('#' + toggle_id).attr('db_id',is_saved)
-        $('#' + toggle_id).attr('status',"saved")
+        $('#' + toggle_id).attr('db_id',is_saved);
+        $('#' + toggle_id).attr('status',"saved");
       }
 
-      var record = search_date(response,date)
-      console.log(record);
+      var record = search_date(response,date);
       if(record)
       {
         
@@ -171,38 +169,26 @@ $(document).on('page:load ready',function()
       // For Getting Date in Rails Format
       var date= this.id;
       var date_month=date.slice(5,7);
-      var current_month="0"+(month+1).toString().slice(-2);
+      var current_month=("0"+(month+1).toString()).slice(-2);
       //For User Toggle Selection
       var selection;
       if(this.checked)
-        selection="No"
+        selection="No";
       else
-        selection="Yes"
+        selection="Yes";
       
 
       //For User ID
       var user_id = $('div#calendar').attr('data-user');
 
-      console.log(selection);
       if (current_month == date_month) {
         var status = $(this).attr('status')
-        if(status != "saved"){
-          $.ajax({
-          type:'POST',
-          url:'/food_counts',
-          data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
-          ataType:'text',
-          success: function(result){
-            console.log(result);
-            set_db_id(date)
+        if(status != "saved")
+          create_ajax_call(user_id,date,selection,this);   
 
-            }
-          });
-         
-        }
         else{
-          var db_id = $(this).attr('db_id')
-          var update_url = '/food_counts/'+ db_id      
+          var db_id = $(this).attr('db_id');
+          var update_url = '/food_counts/'+ db_id;    
           $.ajax({
             type: 'PUT',
             url: update_url,
@@ -223,5 +209,20 @@ $(document).on('page:load ready',function()
             
       
     })
+
+  function create_ajax_call(user_id, date,selection,obj)
+  {
+    $.ajax({
+          type:'POST',
+          url:'/food_counts',
+          data: $.param({ food_count: {user_id: user_id, date: date,selection: selection}}),
+          ataType:'text',
+          success: function(result){
+            console.log(result);
+            $(obj).attr("disabled",true);
+            set_db_id(date,obj);
+            }
+          });
+  }
 });
 
