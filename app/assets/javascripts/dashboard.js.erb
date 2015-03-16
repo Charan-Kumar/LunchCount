@@ -130,8 +130,6 @@ $(document).on('page:load ready',function()
       $('label#label_id').attr("for", toggle_id);
       $('label#label_id').attr("id", toggle_id);
 
-
-   
       date=get_date(index+1,month,year)
       is_saved = get_db_id(response,date)
       if(is_saved)
@@ -141,16 +139,16 @@ $(document).on('page:load ready',function()
       }
 
       var record = search_date(response,date)
+      console.log(record);
       if(record)
       {
         
         if(record.selection=='Yes')
         {
           $('#' + toggle_id).prop('checked', false);
-          //$('#' + toggle_id).attr('data-status', "saved")
 
         }
-        else{
+        else if(record.selection=='No'){
           $('#' + toggle_id).prop('checked', true);
         }
       }
