@@ -55,18 +55,6 @@ $(document).on('page:load ready',function()
     
   });
 
-  function search_date(response,date)
-  { 
-    
-    for( var i in response)
-    {
-      
-      if( response[i].date == date)
-        return response[i]
-
-    }
-  }
-
   
   function search_date(response,date)
   { 
@@ -112,14 +100,13 @@ $(document).on('page:load ready',function()
     dataType: "json",
     data:{date:d} ,
     success: function(response){
-      $('td .fc-day').not(".fc-other-month").each(function(index){
-        is_saved = get_db_id(response,date)
-        if(is_saved)
-        {
-          $('#' + date).attr('db_id',is_saved)
-          $('#' + date).attr('status',"saved")
-        }
-      })
+      is_saved = get_db_id(response,date)
+      if(is_saved)
+      {
+        $('#' + date).attr('db_id',is_saved)
+        $('#' + date).attr('status',"saved")
+      }
+      console.log("DB ID Updated");
 
 
     }
@@ -179,12 +166,12 @@ $(document).on('page:load ready',function()
 
   }
   
-  $(document).on("click",'.onoffswitch-checkbox', function(){
+  $(document).on("click",'.onoffswitch-checkbox ', function(){
+
+      
 
       // For Getting Date in Rails Format
-      var d = new Date();
-      var date= ""+year.toString()+"-"+("0" + (month+1)).slice(-2)+"-"+this.id.slice(8);
-      
+      var date= this.id;
       var date_month=date.slice(5,7);
       var current_month="0"+(month+1).toString().slice(-2);
       //For User Toggle Selection
@@ -197,12 +184,6 @@ $(document).on('page:load ready',function()
 
       //For User ID
       var user_id = $('div#calendar').attr('data-user');
-
-      
-      // var d = Date(Date.parse(date))
-      // var firstDay = new Date(d.getFullYear(), d.getMonth(), 1);
-      // var lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0); 
-      // console.log(d);
 
       if (current_month == date_month) {
         var status = $(this).attr('status')
