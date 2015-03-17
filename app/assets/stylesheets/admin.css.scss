@@ -6,14 +6,10 @@
   margin-top : 50px;
   margin-left : 100px;
   margin-right : 100px;
-  border: solid 3px black;
+  
 }
 
 #present_table, #next_table{
   margin-top : 50px;
-  border: solid 3px black;
   width:50%;
 }
-
-#present_table td + td { border-left:2px solid black; }
-#next_table td + td { border-left:2px solid black; }
