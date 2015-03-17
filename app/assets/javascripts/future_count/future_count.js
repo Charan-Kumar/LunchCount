@@ -13,10 +13,7 @@ $(document).on('page:load ready',function()
       right:  'prev next'
     },
   })
-
-  
   get_data();
-  
   
   function get_data()
   {
@@ -29,14 +26,18 @@ $(document).on('page:load ready',function()
     data:{date:d} ,
     success: function(response){
       console.log("Sucessfully Get the Data From DataBase")
-      console.log(response);
       load_count(response);
         
-     }
+     },
+    error: function(e){
+      console.log(e)
+    }
+
     });
   }
 
-  $('#future_count.fc-next-button').on('click', function(){
+  $('#future_count .fc-next-button').on('click', function(){
+    console.log("Hello")
     month++;
     if (month > 11)
     {
@@ -44,17 +45,17 @@ $(document).on('page:load ready',function()
       year++;
       
     }
-    reload_data();
+    get_data()
     
   });
-  $('#future_count.fc-prev-button').on('click', function(){
+  $('#future_count .fc-prev-button').on('click', function(){
     month--;
     if (month < 0)
     {
       month = 11;
       year--;
     }
-    reload_data();
+    get_data()
     
   });
 
@@ -65,8 +66,8 @@ $(document).on('page:load ready',function()
     for( var i in response)
     {
       
-      if( response[i].date == date)
-        return response[i];
+      if( response[date])
+        return response[date];
 
     }
   }
@@ -89,14 +90,17 @@ $(document).on('page:load ready',function()
 
   function load_count(response)
   {
-    $('#future_count.fc-day td').not(".fc-other-month").each(function(index){
+    $('td .fc-day').not(".fc-other-month").each(function(index){
 
       var toggle_id = get_the_date((index+1),month,year);
       if ( $(this).hasClass("fc-sun") || $(this).hasClass("fc-sat") )
         return;
-      
-
-      $(this).append('');
+  
+      get_date = search_the_date(response,toggle_id)
+      if (get_date)
+        $(this).append('<center><br><br><b>'+ get_date+'</b> </center>');
+      else
+        $(this).append('<center><br><br><b>0</b></center>');
       
     
             

@@ -18,13 +18,13 @@ class AdminController < ApplicationController
   end
 
   def future_count
-    # if params[:date]
-    #    @fc=FoodCount.every_month(params[:date])
-    # end
+    if params[:date]
+       @fc=FoodCount.every_month(params[:date])
+    end
    
-    # respond_to do |format|
-    #   format.html # this handles normal requests asking for html
-    #   format.json{ render json: @fc }
-    # end
+    respond_to do |format|
+      format.html # this handles normal requests asking for html
+      format.json{ render json: @fc }
+    end
   end
 end
