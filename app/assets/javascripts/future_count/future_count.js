@@ -13,10 +13,10 @@ $(document).on('page:load ready',function()
       right:  'prev next'
     },
   })
-  reload_data();
+  read_data();
   
   
-  function reload_data()
+  function read_data()
   {
     var d=get_date(01,month,year);
     $.ajax(
@@ -56,7 +56,7 @@ $(document).on('page:load ready',function()
   });
 
   
-  function search_date(response,date)
+  function _date(response,date)
   { 
     
     for( var i in response)
@@ -79,7 +79,7 @@ $(document).on('page:load ready',function()
   }
 
   
-  function get_db_id(response,date)
+  function _db_id(response,date)
   {
     for( var i in response)
     {
@@ -94,7 +94,7 @@ $(document).on('page:load ready',function()
 
 
 
-  function load_toggles(response)
+  function _toggles(response)
   {
     $('td .fc-day').not(".fc-other-month").each(function(index){
 
