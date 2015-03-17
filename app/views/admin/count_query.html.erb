@@ -8,6 +8,12 @@
     })
 
     $('#count').append('Count is <%= @count%>')
+    $('#btn').attr("disabled",true)
+
+    $('#form,#to').on('changeDate', function (ev) {
+      $('#btn').attr("disabled",false);
+    })
+
 
   
   });
@@ -15,8 +21,8 @@
 
 <center>
 <%= form_tag admin_count_query_path, method: :get do %>
-  <%= text_field_tag "from", "Start", class: 'datepicker'%>
-  <%= text_field_tag "to", "End", class: 'datepicker'%><br><br>
+  <%= text_field_tag "from", "Start", class: 'datepicker', id:'from'%>
+  <%= text_field_tag "to", "End", class: 'datepicker', id:'to'%><br><br>
   <%= submit_tag "Submit", id: "btn", class: "btn btn-default" %>
 <% end %>
 <br><br>
