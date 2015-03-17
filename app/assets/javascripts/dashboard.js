@@ -33,7 +33,7 @@ $(document).on('page:load ready',function()
     });
   }
 
-  $('.fc-next-button').on('click', function(){
+  $('#calendar .fc-next-button').on('click', function(){
     month++;
     if (month > 11)
     {
@@ -44,7 +44,7 @@ $(document).on('page:load ready',function()
     reload_data();
     
   });
-  $('.fc-prev-button').on('click', function(){
+  $('#calendar .fc-prev-button').on('click', function(){
     month--;
     if (month < 0)
     {
@@ -117,7 +117,7 @@ $(document).on('page:load ready',function()
 
   function load_toggles(response)
   {
-    $('td .fc-day').not(".fc-other-month").each(function(index){
+    $('#calendar td .fc-day').not(".fc-other-month").each(function(index){
 
       var toggle_id = get_date((index+1),month,year);
       if ( $(this).hasClass("fc-sun") || $(this).hasClass("fc-sat") )

@@ -1,8 +1,8 @@
 $(document).on('page:load ready',function() 
 {
-  var d = new Date();
-  var month = d.getMonth();
-  var year = d.getFullYear();
+  var fc_d = new Date();
+  var fc_month = fc_d.getMonth();
+  var fc_year = fc_d.getFullYear();
   $('#future_count').fullCalendar({
     firstDay:1,
     contentHeight: 600,
@@ -13,12 +13,11 @@ $(document).on('page:load ready',function()
       right:  'prev next'
     },
   })
-  read_data();
+  get_data();
   
-  
-  function read_data()
+  function get_data()
   {
-    var d=get_date(01,month,year);
+    var d = get_the_date(01,fc_month,fc_year);
     $.ajax(
     {
     url: "/admin/future_count",
@@ -27,49 +26,53 @@ $(document).on('page:load ready',function()
     data:{date:d} ,
     success: function(response){
       console.log("Sucessfully Get the Data From DataBase")
-      console.log(response);
+      load_count(response);
         
-     }
+     },
+    error: function(e){
+      console.log(e)
+    }
+
     });
   }
 
-  $('.fc-next-button').on('click', function(){
-    month++;
-    if (month > 11)
+  $('#future_count .fc-next-button').on('click', function(){
+    fc_month++;
+    if (fc_month > 11)
     {
-      month = 0;
-      year++;
+      fc_month = 0;
+      fc_year++;
       
     }
-    reload_data();
+    get_data()
     
   });
-  $('.fc-prev-button').on('click', function(){
-    month--;
-    if (month < 0)
+  $('#future_count .fc-prev-button').on('click', function(){
+    fc_month--;
+    if (fc_month < 0)
     {
-      month = 11;
-      year--;
+      fc_month = 11;
+      fc_year--;
     }
-    reload_data();
+    get_data()
     
   });
 
   
-  function _date(response,date)
+  function search_the_date(response,date)
   { 
     
     for( var i in response)
     {
       
-      if( response[i].date == date)
-        return response[i];
+      if( response[date])
+        return response[date];
 
     }
   }
 
 
-  function _date(day,month,year)
+  function get_the_date(day,month,year)
   {
 
     var d = new Date();
@@ -78,36 +81,27 @@ $(document).on('page:load ready',function()
 
   }
 
-  
-  function _db_id(response,date)
+ 
+
+  function load_count(response)
   {
-    for( var i in response)
-    {
-      if(response[i].date == date)
-        return response[i].id;
+    $('#future_count .fc-day').not(".fc-other-month").each(function(index){
 
-    }
-    
-  }
-
-  
-
-
-
-  function _toggles(response)
-  {
-    $('td .fc-day').not(".fc-other-month").each(function(index){
-
-      var toggle_id = get_date((index+1),month,year);
+      var fc_toggle_id = get_the_date((index+1),fc_month,fc_year);
       if ( $(this).hasClass("fc-sun") || $(this).hasClass("fc-sat") )
         return;
-      
-
-      $(this).append();
-      
-    })
-  }
   
+      get_date = search_the_date(response,fc_toggle_id)
+      if (get_date)
+        $(this).append('<center><br><br><b>'+ get_date+'</b> </center>');
+      else
+        $(this).append('<center><br><br><b>0</b></center>');
+      
+    
+            
+    })
+
+  }
   
 });
 
