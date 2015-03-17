@@ -6,9 +6,8 @@ class AdminController < ApplicationController
 
   def foodcount
      @fc = FoodCount.by_month
-     @fc_next = FoodCount.by_next_month
      @today = Date.today
-     @next_month = Date.today+1.month
+     
   end
 
 
@@ -19,6 +18,14 @@ class AdminController < ApplicationController
       h=params[:to]
       to = Date.new(h['Ending Day(1i)'].to_i, h['Ending Day(2i)'].to_i, h['Ending Day(3i)'].to_i).to_s
       @count = FoodCount.date_range(from,to)
+    end
+  end
+
+  def future_count
+    @fc=FoodCount.every_month(params[:date])
+    respond_to do |format|
+      format.html # this handles normal requests asking for html
+      format.json{ render json: @fc }
     end
   end
 end

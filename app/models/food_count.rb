@@ -13,8 +13,8 @@ class FoodCount < ActiveRecord::Base
     where("date >= ? and date <= ? and selection = ?", bom, eom,sel).group(:date).count
   end
 
-  def self.by_next_month()
-    dt = Date.today+1.month
+  def self.every_month(date)
+    dt = Date.parse(date)
     bom = dt.beginning_of_month
     eom = dt.end_of_month
     sel = "Yes"

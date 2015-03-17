@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'admin/users'
   get 'admin/foodcount'
   get 'admin/count_query'
+  get 'admin/future_count'
 
   resources :food_counts
 

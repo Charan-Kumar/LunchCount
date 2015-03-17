@@ -9,8 +9,8 @@
           <% if current_user.is_admin %>
             <li><%= link_to "My Calender",:home_dashboard %></li>
             <li><%= link_to "Users",:admin_users %></li>
-            <li><%= link_to "Present Month Count", :admin_foodcount %></li>
-            <li><%= link_to "Food Count", :admin_count_query %></li>
+            <li><%= link_to "Food Count", :admin_foodcount %></li>
+            <li><%= link_to "Food Ordered", :admin_count_query %></li>
           <% end %>
       <% end %>
     </ul>
