@@ -3,7 +3,10 @@
     $('.datepicker').datepicker({
     format: 'yyyy-mm-dd',
     autoclose: true
+    }).on('changeDate', function (ev) {
+    $(this).datepicker('hide');
     })
+
     $('#count').append('Count is <%= @count%>')
 
   
