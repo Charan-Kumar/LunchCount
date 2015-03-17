@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'admin/index'
   get 'admin/users'
   get 'admin/foodcount'
+  get 'admin/count_query'
 
   resources :food_counts
 

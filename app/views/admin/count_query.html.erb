@@ -1,0 +1,16 @@
+<center>
+<%= form_tag admin_count_query_path, method: :get do %>
+  <div>
+  <p><b>Start Date</b></p>
+  <%= date_select("from", "Starting Day", start_year: 2015, prompt: { day: 'Select day', month: 'Select month', year: 'Select year' })%>
+  </div><br>
+
+  <div>
+  <p><b>End Date</b></p>
+  <%= date_select("to", "Ending Day", start_year: 2015, prompt: { day: 'Select day', month: 'Select month', year: 'Select year' }) %></br></br>
+  <%= submit_tag "Submit", :id => "btn" %>
+  </div>
+<% end %>
+</br>
+<p>Count is <%= @count%></p>
+</center>
