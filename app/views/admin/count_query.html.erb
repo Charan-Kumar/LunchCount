@@ -1,16 +1,24 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.datepicker').datepicker({
+    format: 'yyyy-mm-dd',
+    autoclose: true
+    })
+    $('#count').append('Count is <%= @count%>')
+
+  
+  });
+</script>
+
 <center>
 <%= form_tag admin_count_query_path, method: :get do %>
-  <div>
-  <p><b>Start Date</b></p>
-  <%= date_select("from", "Starting Day", start_year: 2015, prompt: { day: 'Select Day', month: 'Select Month', year: 'Select Year' })%>
-  </div><br>
-
-  <div>
-  <p><b>End Date</b></p>
-  <%= date_select("to", "Ending Day", start_year: 2015, prompt: { day: 'Select Day', month: 'Select Month', year: 'Select Year' }) %></br></br>
-  <%= submit_tag "Submit", :id => "btn" %>
-  </div>
+  <%= text_field_tag "from", "Start", class: 'datepicker'%>
+  <%= text_field_tag "to", "End", class: 'datepicker'%><br><br>
+  <%= submit_tag "Submit", id: "btn", class: "btn btn-default" %>
 <% end %>
-</br>
-<p>Count is <%= @count%></p>
+<br><br>
+
+<p id="count"></p>
 </center>
+
+

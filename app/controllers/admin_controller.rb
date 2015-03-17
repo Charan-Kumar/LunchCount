@@ -13,20 +13,7 @@ class AdminController < ApplicationController
 
   def count_query
     if params[:from] and params[:to]
-      h=params[:from]
-      from = Date.new(h['Starting Day(1i)'].to_i, h['Starting Day(2i)'].to_i, h['Starting Day(3i)'].to_i).to_s
-      h=params[:to]
-      month = h['Ending Day(2i)'].to_i
-      if(h['Ending Day(3i)'].to_i == 31 and (month == 4 or month == 6 or month == 9 or month ==11))
-        to = Date.new(h['Ending Day(1i)'].to_i, h['Ending Day(2i)'].to_i, 30).to_s
-
-      elsif(h['Ending Day(2i)'].to_i == 2)
-        to = Date.new(h['Ending Day(1i)'].to_i, h['Ending Day(2i)'].to_i, 28).to_s
-      else
-        to = Date.new(h['Ending Day(1i)'].to_i, h['Ending Day(2i)'].to_i, h['Ending Day(3i)'].to_i).to_s
-      end
-
-      @count = FoodCount.date_range(from,to)
+      @count = FoodCount.date_range(params[:from],params[:to])
     end
   end
 
