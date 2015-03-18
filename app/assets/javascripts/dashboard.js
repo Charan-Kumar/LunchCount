@@ -12,6 +12,7 @@ $(document).on('page:load ready',function()
       center: 'title',
       right:  'prev next'
     },
+    handleWindowResize: true
   })
   reload_data();
   

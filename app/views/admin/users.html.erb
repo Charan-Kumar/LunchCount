@@ -1,45 +1,50 @@
 <center><h2>Food Count Users</h2></center>
-<div id="user_table" class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>User Name</th>
-                  <th>Email Id</th>
-                  <th>Role</th>
-                  <th></th>
-                  <th></th>
-               
-                </tr>
-              </thead>
-              <tbody>
-              <% @all_users.each do |user|%>
-                <tr>
-                  <td><%= user.user_name %></td>
-                  <td><%= user.email %></td>
-                  <td>
-                  <% if user.is_admin %>
-                    Admin
+<div class='container'>
+  <div class='row'>
+    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+      <div id="user_table" class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>User Name</th>
+              <th>Email Id</th>
+              <th>Role</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @all_users.each do |user|%>
+            <tr>
+              <td><%= user.user_name %></td>
+              <td><%= user.email %></td>
+              <td>
+              <% if user.is_admin %>
+                Admin
 
-                  <%else%>
-                    User
-                  <% end %>
-
-                  </td>
-                  <% if(current_user.id == user.id)%>
-                  <td><%= link_to 'Destroy', admin_users_path, data: { confirm: 'You cant destroy your own account' },:class => "btn btn-danger" %></td>
-                  <%else%>
-                  <td><%= link_to 'Destroy',  user_path(user), method: :delete, data: { confirm: 'Do You Want to Delete the User?' },:class => "btn btn-danger" %></td>
-
-                  <% end %>
-                  <% if(current_user.id == user.id)%>
-                  <td><%= link_to 'Edit', admin_users_path, data: { confirm: 'You cant edit your own account' },:class => "btn btn-default" %></td>
-                  <%else%>
-                  <td><%= link_to 'Edit', edit_user_path(:id=>user.id),:class => "btn btn-default" %></td>
-
-                  <% end %>
-
-                </tr>
+              <%else%>
+                User
               <% end %>
-              </tbody>
-        </table>
+
+              </td>
+              <% if(current_user.id == user.id)%>
+              <td><%= link_to 'Destroy', admin_users_path, data: { confirm: 'You cant destroy your own account' },:class => "btn btn-danger" %></td>
+              <%else%>
+              <td><%= link_to 'Destroy',  user_path(user), method: :delete, data: { confirm: 'Do You Want to Delete the User?' },:class => "btn btn-danger" %></td>
+
+              <% end %>
+              <% if(current_user.id == user.id)%>
+              <td><%= link_to 'Edit', admin_users_path, data: { confirm: 'You cant edit your own account' },:class => "btn btn-default" %></td>
+              <%else%>
+              <td><%= link_to 'Edit', edit_user_path(:id=>user.id),:class => "btn btn-default" %></td>
+
+              <% end %>
+
+            </tr>
+          <% end %>
+          </tbody>
+    </table>
+      </div>
+    </div>
+  </div>
 </div>
