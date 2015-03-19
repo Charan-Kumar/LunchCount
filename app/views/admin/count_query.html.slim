@@ -1,0 +1,33 @@
+javascript:
+  $(document).ready(function(){
+    $('.datepicker').datepicker({
+    format: 'yyyy-mm-dd',
+    autoclose: true
+    }).on('changeDate', function (ev) {
+    $(this).datepicker('hide');
+    })
+
+    $('#count h2').append('Count is #{@count}')
+    $('#btn').attr("disabled",true)
+
+    $('#form,#to').on('changeDate', function (ev) {
+      $('#btn').attr("disabled",false);
+    })
+  });
+
+div class="container"
+  div class="row"
+    div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+      center
+        = form_tag admin_count_query_path, method: :get do
+          = text_field_tag "from", "Start", class: 'datepicker', id:'from'
+          = text_field_tag "to", "End", class: 'datepicker', id:'to' 
+          br
+          br
+          = submit_tag "Submit", id: "btn", class: "btn btn-default"
+          br
+          br
+        #count
+          h2 
+
+        

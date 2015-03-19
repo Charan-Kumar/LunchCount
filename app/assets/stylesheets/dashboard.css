@@ -51,13 +51,11 @@
     }
 
    .onoffswitch-inner:before, .onoffswitch-inner:after {
-         height: 20px;  line-height: 20px;
-        font-size: 10px;   
+         height: 20px;  line-height: 20px; font-size: 10px;   
     }    
 
     .onoffswitch-switch {
-        width: 12px; margin: 4px;
-        right: 36px;
+        width: 12px; margin: 4px;right: 36px;
    }
 }
 
@@ -68,14 +66,11 @@
     }
 
    .onoffswitch-inner:before, .onoffswitch-inner:after {
-         height: 15px;  line-height: 15px;
-        font-size: 8px;   
+         height: 15px;  line-height: 15px;font-size: 8px;   
     }    
 
     .onoffswitch-switch {
-        width: 9px; 
-        margin: 3px;
-        right: 30px;
+        width: 9px; margin: 3px;right: 30px;
 
    }
    
@@ -86,7 +81,33 @@
 }
 
 @media only screen and (max-width: 480px){
+
+     .onoffswitch {
+    position: relative; width: 35px;
+    }
+
+   .onoffswitch-inner:before, .onoffswitch-inner:after {
+         height: 10px;  line-height: 10px;font-size: 6px;   
+    }    
+
+    .onoffswitch-switch {
+        width: 6px; margin: 3px;right: 20px; border: 1px solid #999999;
+    }
+    .onoffswitch-inner:after {
+        content: "NO";
+    }
     
+    .onoffswitch-inner:before {
+        content: "YES";
+        padding-right: 5px;
+    }
+    .fc-row {
+        height: 70px !important;
+    }
+    
+    .fc-widget-header{
+        height:20px !important;
+    }
 }
 
 @media only screen and (max-width: 360px){
@@ -94,7 +115,6 @@
 }
 
 @media only screen and (max-width: 320px){
-
     
 }
 

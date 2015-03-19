@@ -62,3 +62,4 @@ gem 'momentjs-rails'
 
 gem 'pry'
 gem 'bootstrap-datepicker-rails'
+gem 'slim'

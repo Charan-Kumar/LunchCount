@@ -93,9 +93,9 @@ $(document).on('page:load ready',function()
   
       get_date = search_the_date(response,fc_toggle_id)
       if (get_date)
-        $(this).append('<center><br><br><b>'+ get_date+'</b> </center>');
+        $(this).append('<center><br><br><b><p style="color:blue;">'+ get_date+'</p></b> </center>');
       else
-        $(this).append('<center><br><br><b>0</b></center>');
+        $(this).append('<center><br><br><b><p style="color:brown;">0</p></b></center>');
       
     
             

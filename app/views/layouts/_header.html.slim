@@ -1,0 +1,26 @@
+header
+  nav.navbar.navbar-inverse role="navigation" 
+    .container-fluid
+      /! Brand and toggle get grouped for better mobile display
+      .navbar-header
+        button.navbar-toggle.collapsed aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" type="button" 
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        = link_to "Lunch Count", :new_user_session, :class => "navbar-brand"
+      #navbar.navbar-collapse.collapse
+        ul.nav.navbar-nav.navbar-left
+          - if user_signed_in?
+            - if current_user.is_admin
+              li= link_to "My Calender",:home_dashboard
+              li= link_to "Users",:admin_users
+              li= link_to "Food Count", :admin_future_count
+              li= link_to "Food Ordered", :admin_count_query
+        ul.nav.navbar-nav.navbar-right
+          - if user_signed_in?
+            li.navbar-text
+              | Weclome #{current_user.user_name}
+            li= link_to "Sign out", destroy_user_session_path, :method => :delete
+          - else
+            li= link_to "Sign in Crypsis Account", user_omniauth_authorize_path(:google_oauth2)

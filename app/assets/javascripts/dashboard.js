@@ -169,8 +169,6 @@ $(document).on('page:load ready',function()
   
   $(document).on("change",'.onoffswitch-checkbox ', function(){
 
-      
-
       // For Getting Date in Rails Format
       var date= this.id;
       var date_month=date.slice(5,7);
