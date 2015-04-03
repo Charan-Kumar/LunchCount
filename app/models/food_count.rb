@@ -25,12 +25,4 @@ class FoodCount < ActiveRecord::Base
     where("date >= ? and date <= ? and selection = ?", from,to,"Yes").count
   end
 
-  # def self.user_current_month
-  #   dt = Date.today
-  #   bom = dt.beginning_of_month
-  #   eom = dt.end_of_month
-  #   current_id = User.find(current_user).id
-  #   where("date >= ? and date <= ? and user_id == ?", bom, eom,current_id)
-  # end
-
 end
